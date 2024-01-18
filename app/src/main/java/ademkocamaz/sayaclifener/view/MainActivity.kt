@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.widget.Toast
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
+/*import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds*/
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,10 +18,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        MobileAds.initialize(this)
+        //MobileAds.initialize(this)
 
-        var adRequest = AdRequest.Builder().build()
-        main_adView.loadAd(adRequest)
+        /*var adRequest = AdRequest.Builder().build()
+        main_adView.loadAd(adRequest)*/
 
         val chronometer = main_chronometer
 
@@ -34,16 +34,16 @@ class MainActivity : AppCompatActivity() {
                 flashLight()
                 main_imageView.setImageResource(R.drawable.ic_baseline_flash_off_24)
                 chronometer.stop()
-                adRequest = AdRequest.Builder().build()
-                main_adView.loadAd(adRequest)
+                /*adRequest = AdRequest.Builder().build()
+                main_adView.loadAd(adRequest)*/
             } else {
                 isFlashLightOn = true
                 flashLight()
                 main_imageView.setImageResource(R.drawable.ic_baseline_flash_on_24)
                 chronometer.base = SystemClock.elapsedRealtime()
                 chronometer.start()
-                adRequest = AdRequest.Builder().build()
-                main_adView.loadAd(adRequest)
+                /*adRequest = AdRequest.Builder().build()
+                main_adView.loadAd(adRequest)*/
             }
 
         }
