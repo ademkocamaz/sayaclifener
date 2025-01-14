@@ -1,52 +1,57 @@
 package ademkocamaz.sayaclifener.view
 
 import ademkocamaz.sayaclifener.R
+import ademkocamaz.sayaclifener.databinding.ActivityMainBinding
 import android.content.Context
 import android.hardware.camera2.CameraManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.widget.Toast
-/*import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds*/
-import kotlinx.android.synthetic.main.activity_main.*
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.interstitial.InterstitialAd
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
 class MainActivity : AppCompatActivity() {
 
     private var isFlashLightOn: Boolean = false
-
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        //MobileAds.initialize(this)
+        binding = ActivityMainBinding.inflate(layoutInflater)
 
-        /*var adRequest = AdRequest.Builder().build()
-        main_adView.loadAd(adRequest)*/
 
-        val chronometer = main_chronometer
+        val chronometer = binding.mainChronometer
 
         isFlashLightOn = false
-        main_imageView.setImageResource(R.drawable.ic_baseline_flash_off_24)
+        binding.mainImageView.setImageResource(R.drawable.ic_baseline_flash_off_24)
 
-        main_imageView.setOnClickListener { view ->
+        binding.mainImageView.setOnClickListener {
             if (isFlashLightOn) {
                 isFlashLightOn = false
                 flashLight()
-                main_imageView.setImageResource(R.drawable.ic_baseline_flash_off_24)
+                binding.mainImageView.setImageResource(R.drawable.ic_baseline_flash_off_24)
                 chronometer.stop()
-                /*adRequest = AdRequest.Builder().build()
-                main_adView.loadAd(adRequest)*/
             } else {
                 isFlashLightOn = true
                 flashLight()
-                main_imageView.setImageResource(R.drawable.ic_baseline_flash_on_24)
+                binding.mainImageView.setImageResource(R.drawable.ic_baseline_flash_on_24)
                 chronometer.base = SystemClock.elapsedRealtime()
                 chronometer.start()
-                /*adRequest = AdRequest.Builder().build()
-                main_adView.loadAd(adRequest)*/
             }
 
         }
+        binding.mainAdView.loadAd(AdRequest.Builder().build())
+        InterstitialAd.load(
+            this,
+            "ca-app-pub-5764318432941968/6832382131",
+            AdRequest.Builder().build(),
+            object : InterstitialAdLoadCallback() {
+                override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    interstitialAd.show(this@MainActivity)
+                }
+            })
+        setContentView(binding.root)
     }
 
     fun flashLight() {
@@ -59,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 cameraManager.setTorchMode(cameraId, false)
             }
         } catch (exception: Exception) {
-            Toast.makeText(this,exception.localizedMessage,Toast.LENGTH_LONG).show()
+            Toast.makeText(this, exception.localizedMessage, Toast.LENGTH_LONG).show()
         }
 
     }
